@@ -14,6 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         url += `&phone_number=${encodeURIComponent(phone_number.toString())}`;
     }
 
+    console.log(url)
+
     try {
         const response = await fetch(url);
 
@@ -24,6 +26,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const data = await response.json();
 
         res.json(data);
+
+        console.log("data::", data)
     } catch (error) {
         console.error('Error fetching data:', error);
         res.status(500).json({ error: 'Internal Server Error' });

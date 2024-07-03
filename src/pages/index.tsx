@@ -4,7 +4,7 @@ import { MembersEntity } from '../../types';
 import * as XLSX from 'xlsx';
 
 export default function Home() {
-  const [error, setError] = useState<Error | null>(null);
+  // const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [members, setMembers] = useState<MembersEntity[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -44,13 +44,16 @@ export default function Home() {
 
         const data = await response.json();
 
+        console.log(data.members)
+
         setMembers(data.members);
         setTotalRecords(data.total_records);
         setTotalFilteredRecords(data.filtered_records);
         setTotalPages(Math.ceil(data.filtered_records / recordsPerPage));
       } catch (error) {
         setTotalPages(1);
-        setError(error as Error);
+        console.log(error)
+        // setError(error as Error);
       } finally {
         setIsLoading(false);
       }
@@ -80,7 +83,8 @@ export default function Home() {
         page++;
       }
     } catch (error) {
-      setError(error as Error);
+      console.log(error)
+      // setError(error as Error);
     } finally {
       setIsLoading(false);
     }
@@ -96,7 +100,8 @@ export default function Home() {
       XLSX.utils.book_append_sheet(wb, ws, 'Members');
       XLSX.writeFile(wb, 'members.xlsx');
     } catch (error) {
-      setError(error as Error);
+      console.log(error)
+      // setError(error as Error);
     } finally {
       setIsLoading(false); // Reset loading state to false
     }
@@ -114,9 +119,9 @@ export default function Home() {
     }
   };
 
-  if (error) {
-    return console.log("Error fetching data...")
-  };
+  // if (error) {
+  //   return console.log("Error fetching data...")
+  // };
 
   return (
     <div className="min-h-screen px-6 py-6">
